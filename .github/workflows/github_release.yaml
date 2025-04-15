@@ -1,0 +1,42 @@
+name: Create GitHub release
+on:
+  push:
+    tags:
+      - '*'
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        include:
+          - os: ubuntu-24.04
+            platform: amd64
+          - os: ubuntu-24.04-arm
+            platform: arm64
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build
+        run: docker buildx build . -o tdlib-java-${{ matrix.platform }}
+
+      - name: Zip libtdjni.so
+        run: zip -r libtdjni-${{ github.ref_name }}-${{ matrix.platform }}.zip -j tdlib-java-${{ matrix.platform }}/libtdjni.so
+
+      - name: Release libtdjni.so
+        uses: softprops/action-gh-release@v2
+        with:
+          files: libtdjni-${{ github.ref_name }}-${{ matrix.platform }}.zip
+
+      - run: cp tdlib-java-${{ matrix.platform }}/tdlib.jar tdlib-${{ github.ref_name }}.jar
+        if: matrix.platform == 'amd64'
+
+      - name: Release tdlib.jar
+        uses: softprops/action-gh-release@v2
+        with:
+          files: tdlib-${{ github.ref_name }}.jar
+        if: matrix.platform == 'amd64'

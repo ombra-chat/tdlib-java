@@ -43,4 +43,4 @@ All the generated classes, except the example ones, are packed to a jar file.
 
 ## License
 
-This repository provides a repackaging of [tdlib](https://github.com/tdlib/td), that is released with Boost Software License.
+This repository provides a repackaging of [tdlib](https://github.com/tdlib/td), that is released with Boost Software License - copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2025.

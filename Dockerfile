@@ -1,7 +1,7 @@
-FROM ubuntu:22.04 AS builder-stage
+FROM debian:12 AS builder-stage
 
 ARG DEBIAN_FRONTEND=noninteractive
-RUN apt update && apt install -y git make git zlib1g-dev libssl-dev gperf php-cli cmake clang-14 libc++-14-dev libc++abi-14-dev default-jdk
+RUN apt update && apt install -y git make git zlib1g-dev libssl-dev gperf php-cli cmake default-jdk g++
 
 RUN git clone https://github.com/tdlib/td.git
 
@@ -13,14 +13,14 @@ RUN git checkout a03a90470d6fca9a5a3db747ba3f3e4a465b5fe7
 RUN mkdir build
 WORKDIR /td/build
 
-RUN CXXFLAGS="-stdlib=libc++" CC=/usr/bin/clang-14 CXX=/usr/bin/clang++-14 cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX:PATH=../example/java/td -DTD_ENABLE_JNI=ON ..
+RUN cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX:PATH=../example/java/td -DTD_ENABLE_JNI=ON ..
 
 RUN cmake --build . --target install
 
 RUN mkdir /td/example/java/build
 WORKDIR /td/example/java/build
 
-RUN CXXFLAGS="-stdlib=libc++" CC=/usr/bin/clang-14 CXX=/usr/bin/clang++-14 cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX:PATH=../../../tdlib -DTd_DIR:PATH=$(readlink -e ../td/lib/cmake/Td) ..
+RUN cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX:PATH=../../../tdlib -DTd_DIR:PATH=$(readlink -e ../td/lib/cmake/Td) ..
 
 RUN cmake --build . --target install
 

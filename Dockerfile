@@ -7,8 +7,8 @@ RUN git clone https://github.com/tdlib/td.git
 
 WORKDIR /td
 
-# 1.8.48
-RUN git checkout b8b08b02dbbc0c05e7129e2f306c636c5b8ec04f
+# 1.8.50
+RUN git checkout e78c346a6b5bf8a2cee97987000e11c8ce9968f3
 
 RUN mkdir build
 WORKDIR /td/build

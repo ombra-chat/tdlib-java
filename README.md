@@ -22,7 +22,7 @@ sudo cp libtdjni.so /usr/lib64
 Install the jar via Maven using the following command:
 
 ```sh
-mvn install:install-file -Dfile=/path/to/tdlib.jar -DgroupId=org.drinkless -DartifactId=tdlib -Dversion=1.8.48 -Dpackaging=jar
+mvn install:install-file -Dfile=/path/to/tdlib.jar -DgroupId=org.drinkless -DartifactId=tdlib -Dversion=1.8.50 -Dpackaging=jar
 ```
 
 Then you can include it in your pom.xml and use it as usual:
@@ -31,7 +31,7 @@ Then you can include it in your pom.xml and use it as usual:
 <dependency>
     <groupId>org.drinkless</groupId>
     <artifactId>tdlib</artifactId>
-    <version>1.8.48</version>
+    <version>1.8.50</version>
 </dependency>
 ```
 
